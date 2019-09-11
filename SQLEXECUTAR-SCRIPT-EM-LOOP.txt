@@ -1,0 +1,22 @@
+use fact
+GO
+:setvar BASE_DIR_4_4_2 "D:\FACT_4_4_2\DATA\SQL"
+GO
+print 'BASE_DIR_4_4_2 = $(BASE_DIR_4_4_2)'
+GO
+print 'Executando 001_Translations.sql'
+GO
+:r $(BASE_DIR_4_4_2)\000_Custom\001_Translations.sql
+GO
+print 'Executando 100_PERSISTED_FORMATS.sql'
+GO
+:r $(BASE_DIR_4_4_2)\001_BackOffice\100_PERSISTED_FORMATS.sql
+GO
+print 'Executando 200_DIC_COMPANY.sql'
+GO
+:r $(BASE_DIR_4_4_2)\001_BackOffice\200_DIC_COMPANY.sql
+GO
+print 'Executando 300_VALUES_LIST.sql'
+GO
+:r $(BASE_DIR_4_4_2)\001_BackOffice\300_VALUES_LIST.sql
+GO

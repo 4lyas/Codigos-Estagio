@@ -1,0 +1,39 @@
+﻿[CmdletBinding()] 
+param(    )  
+  
+$Outdatasource = 'Lobo_Guara'
+$Outdatabase = 'BNDES_ADM'
+$Outsqlcommand = 'select * from viw_PTO_marcacoes'
+
+function Invoke-SQL {
+    param(
+        [string] $dataSource =  $(throw "Please specify a server."),
+        [string] $database = "master",
+        [string] $sqlCommand = $(throw "Please specify a query.")
+        
+      )
+
+    #$ConnectionString = "Data Source=$dataSource;Initial Catalog=$database;User id=$user;Password=$password"
+    $connectionString = "Data Source=$dataSource;Integrated Security=SSPI;Initial Catalog=$database"
+    $connection = new-object system.data.SqlClient.SQLConnection($connectionString)
+    $command = new-object system.data.sqlclient.sqlcommand($sqlCommand,$connection)
+    $adapter = New-Object System.Data.sqlclient.sqlDataAdapter $command
+    $connection.Open()
+    $dataset = New-Object System.Data.DataSet
+    $adapter.Fill($dataSet) | Out-Null
+    $connection.Close()
+
+}
+
+try{
+    $sw= Measure-Command {Invoke-SQL $Outdatasource $Outdatabase $Outsqlcommand}
+    
+## -- $sw recebe o resultado do tempo de execução da função invoke-sql -- ##
+    return $sw.TotalMilliseconds.ToString("#.#")
+    }
+
+Catch{
+      Throw 'Não foi possível recuperar o tempo da query'
+     }
+
+# RAMAL 8127 Marcelo Leite
